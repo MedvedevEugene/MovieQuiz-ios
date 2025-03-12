@@ -1,6 +1,5 @@
 import Foundation
-//
-//
+
 class QuestionFactory: QuestionFactoryProtocol {
     
     private let questions: [QuizQuestion] = [

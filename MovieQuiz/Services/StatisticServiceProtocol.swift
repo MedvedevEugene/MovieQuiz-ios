@@ -1,6 +1,5 @@
 import Foundation
-//
-//
+
 protocol StatisticServiceProtocol: AnyObject {
     var gamesCount: Int { get set }
     var bestGame: GameResult { get set }
