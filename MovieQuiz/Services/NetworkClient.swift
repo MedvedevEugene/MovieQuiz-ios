@@ -1,29 +1,31 @@
 import Foundation
+protocol NetworkRouting {
+    func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void)
+}
 
-struct NetworkClient {
-
+struct NetworkClient: NetworkRouting {
+    
     private enum NetworkError: Error {
-        case invalidResponse
+        case codeError
     }
     
-    func fetch(url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
-        let session = URLSession.shared
+    func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void) {
         let request = URLRequest(url: url)
         
-        let task = session.dataTask(with: request) { data, response, error in
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
-                completion(.failure(error))
+                handler(.failure(error))
                 return
             }
             
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                completion(.failure(NetworkError.invalidResponse))
+            if let response = response as? HTTPURLResponse,
+                response.statusCode < 200 && response.statusCode >= 300 {
+                handler(.failure(NetworkError.codeError))
                 return
             }
             
-            guard let receivedData = data else { return }
-            completion(.success(receivedData))
+            guard let data = data else { return }
+            handler(.success(data))
         }
         
         task.resume()

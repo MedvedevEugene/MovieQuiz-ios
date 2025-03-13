@@ -2,7 +2,7 @@ import Foundation
 
 class QuestionFactory: QuestionFactoryProtocol {
     private let moviesLoader: MoviesLoading
-    private var delegate: QuestionFactoryDelegate?
+    var delegate: QuestionFactoryDelegate?
     private var movies: [MostPopularMovie] = []
     
     init(moviesLoader: MoviesLoading, delegate: QuestionFactoryDelegate?) {
@@ -37,7 +37,7 @@ class QuestionFactory: QuestionFactoryProtocol {
         }
     }
     
-    private func processNextQuestion() {
+    func processNextQuestion() {
         guard let movie = movies.randomElement() else { return }
         
         let imageURL = movie.resizedImageURL
