@@ -26,6 +26,8 @@ final class MovieQuizViewController: UIViewController, MovieQuizView {
         super.viewDidLoad()
         setupUI()
         initializeDependencies()
+        
+        counterLable.accessibilityIdentifier = "Index"
     }
     
     private func setupUI() {
@@ -37,9 +39,11 @@ final class MovieQuizViewController: UIViewController, MovieQuizView {
         let questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: nil)
         let statisticService = StatisticService()
         
-        presenter = MovieQuizPresenter(view: self,
-                                       questionFactory: questionFactory,
-                                       statisticService: statisticService)
+        presenter = MovieQuizPresenter(
+            view: self,
+            questionFactory: questionFactory,
+            statisticService: statisticService
+        )
         questionFactory.delegate = presenter
         presenter.startQuiz()
     }

@@ -6,7 +6,7 @@
 //
 import Foundation
 import XCTest
-var app: XCUIApplication!
+
 class MovieQuizUITests: XCTestCase {
     var app: XCUIApplication!
     func testScreenCast() throws { }
@@ -78,5 +78,42 @@ class MovieQuizUITests: XCTestCase {
             }
         }
     }
+    func testAlertDismissesAndCounterResets() {
+        let app = XCUIApplication()
+        app.launch()
+        
+        for _ in 1...10 {
+            app.buttons["Yes"].tap()
+            sleep(2)
+        }
+
+        let alert = app.alerts["Этот раунд окончен!"]
+        let alertButton = alert.buttons["Сыграть ещё раз"]
+        XCTAssertTrue(alert.exists, "Алерт не появился")
+        alertButton.tap()
+        
+        XCTAssertFalse(alert.exists, "Алерт не закрылся после нажатия на кнопку")
+
+        let indexLabel = app.staticTexts["Index"]
+        XCTAssertEqual(indexLabel.label, "1/10", "Счетчик не сбросился после перезапуска квиза")
+    }
     
+    func testAlertAppearsAtEndOfQuiz() {
+        let app = XCUIApplication()
+        app.launch()
+        
+        for _ in 1...10 {
+            app.buttons["Yes"].tap()
+            sleep(2)
+        }
+        
+        let alert = app.alerts["Этот раунд окончен!"]
+        XCTAssertTrue(alert.exists, "Алерт не появился")
+        XCTAssertEqual(alert.label, "Этот раунд окончен!")
+
+        let alertButton = alert.buttons["Сыграть ещё раз"]
+        XCTAssertTrue(alertButton.exists, "Кнопка 'Сыграть ещё раз' отсутствует")
+    }
+
+
 }

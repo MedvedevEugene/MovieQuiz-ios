@@ -1,15 +1,16 @@
 import XCTest
+
 @testable import MovieQuiz
 
 // MARK: - Мок для представления (View)
 final class MovieQuizViewMock: MovieQuizView {
-    func show(quiz step: QuizStepViewModel) { }
-    func displayResultAlert(title: String, message: String) { }
-    func showLoadingIndicator() { }
-    func hideLoadingIndicator() { }
-    func showNetworkError(message: String) { }
-    func highlightImageBorder(isCorrect: Bool) { }
-    func resetImageBorder() { }
+    func show(quiz step: QuizStepViewModel){}
+    func displayResultAlert(title: String, message: String){}
+    func showLoadingIndicator(){}
+    func hideLoadingIndicator(){}
+    func showNetworkError(message: String){}
+    func highlightImageBorder(isCorrect: Bool){}
+    func resetImageBorder(){}
 }
 
 // MARK: - Мок для фабрики вопросов

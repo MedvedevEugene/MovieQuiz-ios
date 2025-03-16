@@ -1,9 +1,9 @@
 import Foundation
 
 class QuestionFactory: QuestionFactoryProtocol {
-    private let moviesLoader: MoviesLoading
+    let moviesLoader: MoviesLoading
     var delegate: QuestionFactoryDelegate?
-    private var movies: [MostPopularMovie] = []
+    var movies: [MostPopularMovie] = []
     
     init(moviesLoader: MoviesLoading, delegate: QuestionFactoryDelegate?) {
         self.moviesLoader = moviesLoader
@@ -20,7 +20,7 @@ class QuestionFactory: QuestionFactoryProtocol {
         }
     }
     
-    private func handleLoadResult(_ result: Result<MostPopularMovies, Error>) {
+    func handleLoadResult(_ result: Result<MostPopularMovies, Error>) {
         switch result {
         case .success(let mostPopularMovies):
             self.movies = mostPopularMovies.items
